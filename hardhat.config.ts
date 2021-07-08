@@ -1,0 +1,55 @@
+import '@nomiclabs/hardhat-etherscan';
+import '@nomiclabs/hardhat-waffle';
+import '@typechain/hardhat';
+import 'hardhat-abi-exporter';
+import 'hardhat-deploy';
+import 'hardhat-deploy-ethers';
+import 'hardhat-gas-reporter';
+import "@nomiclabs/hardhat-etherscan";
+require("solidity-coverage");
+import networks from './hardhat.network';
+
+import * as dotenv from "dotenv";
+dotenv.config();
+
+import { HardhatUserConfig } from 'hardhat/config';
+
+const config: HardhatUserConfig = {
+  mocha: {
+    timeout: 30000000,
+  },
+  namedAccounts: {
+    deployer: {
+      default: 0,
+    },
+  },
+  networks,
+  etherscan: {
+    // Your API key for Etherscan
+    // Obtain one at https://etherscan.io/  
+    apiKey: process.env.ETHERSCAN_API_KEY,
+  },
+  solidity: {
+    compilers: [
+      {
+        version: '0.8.4'
+      },
+      {
+        version: '0.7.0'
+      }
+    ],
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200,
+      },
+      // evmVersion: 'istanbul',
+    },
+  },
+  typechain: {
+    outDir: 'types',
+    target: 'ethers-v5',
+  },
+};
+
+export default config;
